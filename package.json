@@ -6,6 +6,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build ngx-forge-map",
+    "build:app": "ng build Json2pearl",
+    "vercel-build": "npm run build:lib && npm run build:app",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
