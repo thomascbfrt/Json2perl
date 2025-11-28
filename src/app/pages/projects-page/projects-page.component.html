@@ -1,0 +1,64 @@
+<div class="app-container">
+  <div class="graph" #projectsChart style="height: 100vh; border: 1px solid lightgray"></div>
+
+  <div class="list-elements">
+    <div class="search-bar">
+      <input
+        #search
+        type="text"
+        name="search"
+        (input)="onSearch($event.target.value)"
+        placeholder="Rechercher un sujet"
+      />
+    </div>
+
+    <div class="nb-elements">
+      element charger :
+      {{ elements.projects.length + elements.users.length + elements.groups.length }}
+    </div>
+
+    @if (isLoading) {
+    <div>
+      <loading-spiner></loading-spiner>
+    </div>
+    }
+
+    <div class="subject-display">
+      <div class="table">
+        <div class="thead">
+          <div class="tr">
+            <div class="th">Element</div>
+          </div>
+        </div>
+        <div class="tbody">
+          @for (elt of elements.projects; track $index) {
+          <div class="tr" (click)="onItemSelected(elt)">
+            <img src="icons/CarreProject.svg" alt="" />
+            {{ elt.name }}
+          </div>
+          } @for (elt of elements.users; track $index) {
+          <div class="tr" (click)="onItemSelected(elt)">
+            <img src="images/UserIcon.png" alt="" />
+            {{ elt.name }}
+          </div>
+          } @for (elt of elements.groups; track $index) {
+          <div class="tr" (click)="onItemSelected(elt)">
+            <img src="icons/GroupIcon.svg" alt="" />
+            {{ elt.name }}
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if(display_informations_panel) { @switch (selected_elements?.type) { @case ('project') {
+  <app-projects-informations [project]="selected_elements" />
+  } @case ('group') {
+  <app-group-informations [group]="selected_elements" [members]="selected_group_members" />
+  } @case ('user') {
+  <app-utilisateur-information [user]="selected_elements" [projects]="selected_user_projects" />
+  } } }
+
+  <app-floating-toolbar (toolClicked)="onToolbarItemClicked($event)" />
+</div>
